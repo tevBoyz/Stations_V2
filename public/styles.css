@@ -1,0 +1,112 @@
+
+    html,body,#map { height:100%; margin:0; padding:0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+    /* Custom legend wrapper */
+    #custom-legend-wrapper {
+      position: fixed;
+      bottom: 14px;
+      left: 14px;
+      z-index: 10000;
+      max-width: 420px;
+      width: 85%;
+      max-height: 60%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    #custom-legend {
+      pointer-events: auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #legend-buttons {
+      display:flex;
+      gap:6px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    #legend-buttons button {
+      padding:6px 8px;
+      border-radius:6px;
+      border:0;
+      background:#0078A8;
+      color:white;
+      cursor:pointer;
+      font-weight:600;
+    }
+    #legend-search {
+      flex:1;
+      margin-left:8px;
+    }
+    #legend-search input {
+      width:60%;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid #ddd;
+    }
+
+    #legend-list {
+      overflow-y:auto;
+      max-height: calc(60vh - 120px);
+      padding-top:6px;
+      padding-bottom:6px;
+      border-top:1px solid #eee;
+    }
+
+    .legend-item {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 4px;
+      border-radius:6px;
+    }
+    .legend-color-swatch {
+      width:18px; height:18px; border-radius:4px; border:1px solid #333;
+    }
+    .legend-name { font-size:15px; font-weight:600; }
+
+    /* Toggle button */
+    #legend-toggle {
+      position: fixed;
+      bottom: 14px;
+      left: 14px;
+      z-index: 10001;
+      width:44px; height:44px;
+      border-radius:8px;
+      background:#0078A8;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      cursor:pointer;
+      font-size:20px;
+      border:0;
+    }
+
+    /* collapsed state */
+    #custom-legend.collapsed { transform: translateX(-110%); transition: transform 0.25s ease; }
+    #custom-legend.expanded  { transform: translateX(0); transition: transform 0.25s ease; }
+
+    /* Adjustments for small screens */
+    @media (max-width:768px) {
+      #custom-legend { width: 85vw; max-width: 420px; }
+      #legend-list { max-height: calc(60vh - 140px); }
+      .legend-name { font-size:16px; }
+    }
+
+    /* Tooltip styling override */
+    .leaflet-tooltip.custom-tooltip {
+      font-size: 14px !important;
+      font-weight: 600;
+      background: rgba(255,255,255,0.95) !important;
+      border: 1px solid #333 !important;
+      padding:6px 8px;
+    }
