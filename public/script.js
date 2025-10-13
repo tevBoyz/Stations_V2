@@ -1,5 +1,5 @@
   // CONFIG: filenames relative to this HTML file
-  const CSV_FILE = "routes_with_distances.csv";
+  const CSV_FILE = "routes_with_elevations.csv";
   const KML_FILE = "routes.kml";
 
   // Map bounds for Ethiopia + Djibouti (southwest, northeast)
@@ -288,10 +288,17 @@
       const stationName = row.Station || row['Station Name'] || '';
       const town = row['Town Name'] || row.Town || row.TownName || '';
       const nextDist = (row.NextDist_km !== undefined && row.NextDist_km !== null) ? row.NextDist_km : (row.NextDist || 'N/A');
+      const elevation = row.Elevation_m || row['Elevation_m'] || row['Elevation (m)'] || 'N/A';
+
 
       marker.bindTooltip(
-        `<div style="font-size:14px;"><b>${escapeHtml(stationName)}</b><br>Town: ${escapeHtml(town || 'Unknown')}<br>Next: ${escapeHtml(String(nextDist))} km</div>`,
-        {className:'custom-tooltip', sticky:true}
+        `<div style="font-size:14px;">
+          <b>${escapeHtml(stationName)}</b><br>
+          Town: ${escapeHtml(town || 'Unknown')}<br>
+          Elevation: ${escapeHtml(String(elevation))} m<br>
+          Next: ${escapeHtml(String(nextDist))} km
+        </div>`,
+        { className:'custom-tooltip', sticky:true }
       );
 
       // popup with richer info and links & optional logo
@@ -308,6 +315,7 @@
       popupHtml += `<b>Station:</b> ${escapeHtml(stationName)} ${stationSeq?`(#${escapeHtml(stationSeq)})`:''}<br>`;
       popupHtml += `<b>Route:</b> ${escapeHtml(routeName)}<br>`;
       popupHtml += `<b>Town:</b> ${escapeHtml(town || 'Unknown')}<br>`;
+      popupHtml += `<b>Elevation:</b> ${escapeHtml(String(elevation))} m<br>`;
       popupHtml += `<b>Route Distance (KM):</b> ${escapeHtml(String(routeDist || 'N/A'))}<br>`;
       popupHtml += `<b>PrevDist (km):</b> ${escapeHtml(String(row.PrevDist_km || row.PrevDist || 'N/A'))}<br>`;
       popupHtml += `<b>NextDist (km):</b> ${escapeHtml(String(nextDist || 'N/A'))}<br>`;
