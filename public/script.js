@@ -388,6 +388,10 @@
 
   // hook up legend UI actions
   document.getElementById('legend-toggle').addEventListener('click', () => {
+    toogleLegend();
+  });
+
+  function toogleLegend(){
     const root = document.getElementById('custom-legend');
     if (root.classList.contains('collapsed')) {
       root.classList.remove('collapsed'); root.classList.add('expanded');
@@ -396,7 +400,7 @@
       root.classList.remove('expanded'); root.classList.add('collapsed');
       document.getElementById('legend-toggle').textContent = '☰';
     }
-  });
+  }
 
   document.getElementById('check-all').addEventListener('click', () => setAllRoutes(true));
   document.getElementById('uncheck-all').addEventListener('click', () => setAllRoutes(false));
@@ -421,3 +425,7 @@
     search.value = "";
     search.dispatchEvent(new Event('input'));
   }
+
+  window.onload = function() {
+      toogleLegend();
+    };

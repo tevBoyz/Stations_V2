@@ -5,18 +5,12 @@
   <title>Fuel Stations with Routes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Leaflet CSS -->
-  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-sA+4gkXgkM6S/4p9t0v6X3l7k1u6wXJp6X2K6ZzYxXk=" crossorigin=""/> -->
-
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="map"></div>
 
-  <!-- legend toggle and container -->
   <button id="legend-toggle" aria-label="Toggle legend">☰</button>
   <div id="custom-legend-wrapper">
     <div id="custom-legend" class="collapsed" role="region" aria-label="Map legend">
@@ -34,16 +28,10 @@
     </div>
   </div>
 
-  <!-- Leaflet JS -->
-  <!-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j8kQXnFJr2vG8qYt6Q0zCTu3I4fK4G5x7n1w0+8=" crossorigin=""></script> -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>        
 
-
-  <!-- PapaParse for CSV parsing -->
   <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 
-  <!-- omnivore for KML parsing (toGeoJSON under the hood) -->
   <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
 
   <script src="script.js"></script>
