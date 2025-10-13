@@ -304,23 +304,48 @@
       // popup with richer info and links & optional logo
       const osm = osmLink(lat, lon);
       const gmap = googleLink(lat, lon);
-      const logo = row.Logo_URL || row['Logo_URL'] || row.logo || null; // if you have a column
+      
+      // normalize station name to build logo filename
+      const cleanName = (stationName || "")
+        .replace(/\s+/g, '')       // remove spaces
+        .replace(/[^a-zA-Z0-9]/g, '') // remove special chars
+        .toLowerCase();
+
+      let logoPath = '';
+
+      // expected logo path (e.g., /logos/totalenergies.png)
+      if (stationName === "Total"){
+        logoPath = 'logos/totalenergies.svg'
+      }
+      else if(stationName === "Yetababarut" || stationName === "Tebarek Oil" || stationName === "NOC"){
+        logoPath = `logos/${cleanName}.jpg`
+      }
+      else{
+        logoPath = `logos/${cleanName}.png`;
+      }
+
       const stationSeq = (row['StationSeq'] || row['Seq'] || '');
       const routeDist = row['Route Distance (KM)'] || row['RouteDistanceKM'] || row['Route_Distance_KM'] || '';
 
+      // build popup HTML
       let popupHtml = `<div style="font-size:14px;">`;
-      if (logo) {
-        popupHtml += `<div style="margin-bottom:6px;"><img src="${escapeHtml(logo)}" alt="logo" style="height:38px; object-fit:contain;"></div>`;
-      }
-      popupHtml += `<b>Station:</b> ${escapeHtml(stationName)} ${stationSeq?`(#${escapeHtml(stationSeq)})`:''}<br>`;
+
+      // show logo if it exists
+      popupHtml += `
+        <div style="text-align:start; margin-bottom:6px;">
+          <img src="${logoPath}" alt="${stationName} logo"
+              style="max-height:60px; object-fit:contain;">
+        </div>
+      `;
+
+      popupHtml += `<b>Station:</b> ${escapeHtml(stationName)} ${stationSeq ? `(#${escapeHtml(stationSeq)})` : ''}<br>`;
       popupHtml += `<b>Route:</b> ${escapeHtml(routeName)}<br>`;
       popupHtml += `<b>Town:</b> ${escapeHtml(town || 'Unknown')}<br>`;
-      popupHtml += `<b>Elevation:</b> ${escapeHtml(String(elevation))} m<br>`;
+      popupHtml += `<b>Elevation:</b> ${escapeHtml(String(row.Elevation_m || 'N/A'))} m<br>`;
       popupHtml += `<b>Route Distance (KM):</b> ${escapeHtml(String(routeDist || 'N/A'))}<br>`;
       popupHtml += `<b>PrevDist (km):</b> ${escapeHtml(String(row.PrevDist_km || row.PrevDist || 'N/A'))}<br>`;
       popupHtml += `<b>NextDist (km):</b> ${escapeHtml(String(nextDist || 'N/A'))}<br>`;
       popupHtml += `<a href="${osm}" target="_blank">OpenStreetMap</a> | <a href="${gmap}" target="_blank">Google Maps</a>`;
-      popupHtml += `</div>`;
 
       marker.bindPopup(popupHtml, {maxWidth:320});
 
@@ -330,7 +355,19 @@
     });
 
     // Build legend UI entries
-    createLegendEntries(Object.keys(routeLayers));
+    // Filter only valid route names (those that look like routes)
+    const routeOnlyNames = Object.keys(routeLayers).filter(rn => {
+      const stats = window.routeStats?.[rn];
+      const hasKML = kmlRouteSegments && Object.keys(kmlRouteSegments).includes(rn);
+      const looksLikeRoute = rn.includes('-') || rn.includes('–');
+      return (hasKML || looksLikeRoute) && stats && stats.stations > 0;
+    });
+
+    // Sort routes alphabetically for easier navigation
+    routeOnlyNames.sort((a, b) => a.localeCompare(b));
+
+    // Build legend UI entries
+    createLegendEntries(routeOnlyNames);
 
     // Option: auto-check some routes by default (none checked so user toggles)
     // setAllRoutes(true); // uncomment to show all by default
@@ -378,3 +415,9 @@
     console.error(err);
     alert("Error building the map. See console for details.");
   });
+
+  function clearSearch(){
+    let search = document.getElementById('legend-filter');
+    search.value = "";
+    search.dispatchEvent(new Event('input'));
+  }
