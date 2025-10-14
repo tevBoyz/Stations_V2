@@ -24,13 +24,15 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      max-width: 350px;
     }
 
     #legend-buttons {
       display:flex;
-      gap:6px;
-      justify-content:space-between;
+      justify-content:space-around;
       align-items:center;
+      width: 100%;
+        flex:1;
     }
     #legend-buttons button {
       padding:6px 8px;
@@ -42,11 +44,10 @@
       font-weight:600;
     }
     #legend-search {
-      flex:1;
-      margin-left:8px;
+      flex:1.2;
     }
     #legend-search input {
-      width:60%;
+      width:50%;
       padding:6px 8px;
       border-radius:6px;
       border:1px solid #ddd;
@@ -96,10 +97,25 @@
     #custom-legend.expanded  { transform: translateX(0); transition: transform 0.25s ease; }
 
     /* Adjustments for small screens */
-    @media (max-width:768px) {
-      #custom-legend { width: 85vw; max-width: 420px; }
-      #legend-list { max-height: calc(60vh - 140px); }
-      .legend-name { font-size:16px; }
+    @media (max-width:350px) {
+      #custom-legend { width: 80vw; max-width: 420px; }
+      #legend-list { max-height: calc(60vh - 140px);}
+      .legend-name { font-size:13px; }
+      #check-all, #uncheck-all{
+        width: 60px;
+        white-space: nowrap;    /* keep text on one line */
+        overflow: hidden;       /* hide overflowed text */
+        text-overflow: ellipsis; /* add the "..." */
+        vertical-align: middle;
+      }
+      #legend-filter{
+        width: 30px;
+      }
+    }
+
+/* Adjustments for small screens */
+    @media (max-width:285px) {
+       .legend-name { font-size:11px; }
       #check-all, #uncheck-all{
         width: 40px;
         white-space: nowrap;    /* keep text on one line */
@@ -109,6 +125,19 @@
       }
       #legend-filter{
         width: 30px;
+      }
+    }
+    @media (max-width:230px) {
+       .legend-name { font-size:11px; }
+      #check-all, #uncheck-all{
+        width: 40px;
+        white-space: nowrap;    /* keep text on one line */
+        overflow: hidden;       /* hide overflowed text */
+        text-overflow: ellipsis; /* add the "..." */
+        vertical-align: middle;
+      }
+      #legend-filter{
+        width: 15px;
       }
     }
 
