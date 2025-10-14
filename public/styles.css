@@ -149,3 +149,15 @@
       border: 1px solid #333 !important;
       padding:6px 8px;
     }
+
+    #logo {
+      position: fixed;
+      height: 100px;
+      width: 100px;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+    }
+    #logo img{
+      height: 100%;
+    }
