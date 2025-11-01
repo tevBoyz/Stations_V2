@@ -18,8 +18,8 @@
   const map = L.map('map', {
     center: [9.65, 39.01],
     zoom: 6,
-    minZoom: 6,
-    maxZoom: 12,
+    minZoom: 6.3,
+    maxZoom: 15,
     maxBounds: [BOUNDS_SW, BOUNDS_NE],
     maxBoundsViscosity: 1.0
   });
